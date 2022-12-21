@@ -1,10 +1,10 @@
 <script lang="ts">
 	import '../app.css';
 	import ThemeProvider from '$lib/components/ThemeProvider.svelte';
-	import { currentTheme } from '$lib/store';
+	import Header from '$lib/components/Header.svelte';
 </script>
 
 <ThemeProvider>
-	<button on:click={currentTheme.toggle}>toggle theme</button>
+	<Header />
 	<slot />
 </ThemeProvider>

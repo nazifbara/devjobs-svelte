@@ -5,3 +5,21 @@ body {
 button {
 	color: inherit;
 }
+
+.container {
+	max-width: 69.375rem;
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+	.container {
+		padding-inline: 2.438rem;
+	}
+}
+
+@media (min-width: 69.375rem) {
+	.container {
+		padding-inline: 0;
+	}
+}
