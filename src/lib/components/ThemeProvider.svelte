@@ -1,6 +1,33 @@
 <script lang="ts">
+	import { onMount, afterUpdate } from 'svelte';
 	import { theme, common } from '../../theme';
 	import { currentTheme } from '../store';
+	import { getThemeFromLT, setThemeToLT } from '../utils';
+
+	let isLoading = true;
+
+	onMount(() => {
+		const persistedTheme = getThemeFromLT();
+
+		if (
+			window.matchMedia &&
+			window.matchMedia('(prefers-color-scheme: dark)').matches &&
+			$currentTheme === 'light' &&
+			!persistedTheme
+		) {
+			currentTheme.set('dark');
+		}
+
+		if (persistedTheme) {
+			currentTheme.set(persistedTheme);
+		}
+
+		isLoading = false;
+	});
+
+	afterUpdate(() => {
+		setThemeToLT($currentTheme);
+	});
 </script>
 
 <div
@@ -21,7 +48,9 @@
 	style:--btn2bg={theme[$currentTheme].colors.btn2bg}
 	style:--btn2bgHover={theme[$currentTheme].colors.btn2bgHover}
 >
-	<slot />
+	{#if !isLoading}
+		<slot />
+	{/if}
 </div>
 
 <style>
