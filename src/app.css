@@ -6,6 +6,19 @@ button {
 	color: inherit;
 }
 
+input {
+	color: var(--accentTextContrast);
+	padding: 3px;
+}
+
+input::placeholder {
+	color: var(--accentTextContrast);
+}
+
+input:focus {
+	outline: 0.125rem dashed var(--primary);
+}
+
 .container {
 	max-width: 69.375rem;
 	margin-inline: auto;

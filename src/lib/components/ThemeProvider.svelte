@@ -47,6 +47,7 @@
 	style:--accentTextContrastO50={theme[$currentTheme].colors.accentTextContrastO50}
 	style:--btn2bg={theme[$currentTheme].colors.btn2bg}
 	style:--btn2bgHover={theme[$currentTheme].colors.btn2bgHover}
+	style:--icon={theme[$currentTheme].colors.icon}
 >
 	{#if !isLoading}
 		<slot />

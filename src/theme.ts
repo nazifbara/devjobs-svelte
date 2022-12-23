@@ -21,7 +21,8 @@ export const theme = {
 			accentTextContrastO10: 'hsl(219 29% 14% / 0.135)',
 			accentTextContrastO50: 'hsl(219 29% 14% / 0.50)',
 			btn2bg: common.colors.primaryBgO10,
-			btn2bgHover: common.colors.primaryBgO35
+			btn2bgHover: common.colors.primaryBgO35,
+			icon: 'hsl(214 17% 51%)'
 		}
 	},
 	dark: {
@@ -33,7 +34,8 @@ export const theme = {
 			accentTextContrastO10: 'hsl(0 0% 100% / 0.135)',
 			accentTextContrastO50: 'hsl(0 0% 100% / 0.50)',
 			btn2bg: 'hsl(0 0% 100% / 0.1)',
-			btn2bgHover: 'hsl(0 0% 100% / 0.35)'
+			btn2bgHover: 'hsl(0 0% 100% / 0.35)',
+			icon: 'hsl(0 0% 100%)'
 		}
 	}
 };
