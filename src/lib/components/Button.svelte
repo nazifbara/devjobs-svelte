@@ -3,7 +3,7 @@
 	export let type: string = 'button';
 </script>
 
-<button {type} class:primary={kind === 'primary'} class="btn">
+<button {type} on:click class:primary={kind === 'primary'} class="btn">
 	<slot />
 </button>
 

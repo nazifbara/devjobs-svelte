@@ -6,7 +6,7 @@
 	export let type: 'primary' | '' = '';
 </script>
 
-<button class:primary={type === 'primary'}>
+<button on:click class:primary={type === 'primary'}>
 	<Icon {name} />
 </button>
 

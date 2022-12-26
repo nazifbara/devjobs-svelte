@@ -17,12 +17,17 @@ input::placeholder {
 
 input:focus {
 	outline: 0.125rem dashed var(--primary);
+	outline-offset: 0.25rem;
 }
 
 .container {
 	max-width: 69.375rem;
 	margin-inline: auto;
 	padding-inline: 1.5rem;
+}
+
+.main-bar {
+	transform: translateY(-2.5rem);
 }
 
 @media (min-width: 48rem) {

@@ -14,7 +14,7 @@
 		position: relative;
 		gap: 1rem;
 		align-items: center;
-		grid-template-columns: auto auto;
+		grid-template-columns: auto 1fr;
 		cursor: pointer;
 		color: var(--accentTextContrast);
 		font-weight: 700;

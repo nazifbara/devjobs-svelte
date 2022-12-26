@@ -1,21 +1,28 @@
 <script>
+	import { fly, fade } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
+
 	import IconButton from './IconButton.svelte';
 	import Checkbox from './Checkbox.svelte';
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
+	import Separator from './Separator.svelte';
+
+	let filtering = true;
+	const closeDialog = () => (filtering = false);
 </script>
 
-<form class="wrapper">
+<form class="wrapper main-bar">
 	<label>
 		<Icon name="search" />
 		<input type="search" placeholder="Filter by title..." />
 	</label>
-	<hr />
+	<Separator type="vertical" />
 	<label class="location">
 		<Icon name="location" />
 		<input type="search" placeholder="Filter by location..." />
 	</label>
-	<hr />
+	<Separator type="vertical" />
 	<div class="action">
 		<Checkbox labelText="Full Time Only" />
 
@@ -23,12 +30,64 @@
 	</div>
 
 	<div class="mobile-action">
-		<IconButton name="filter" />
+		<IconButton on:click={() => (filtering = true)} name="filter" />
 		<IconButton name="search" type="primary" />
 	</div>
 </form>
 
+{#if filtering}
+	<div
+		transition:fade={{ easing: cubicOut }}
+		on:click={closeDialog}
+		on:keydown={closeDialog}
+		class="dialog"
+	>
+		<div
+			transition:fly={{ y: 200, easing: cubicOut }}
+			on:click|stopPropagation
+			on:keydown|stopPropagation
+			class="dialog-content"
+		>
+			<label>
+				<Icon name="location" />
+				<input type="search" placeholder="Filter by location..." />
+			</label>
+			<Separator />
+			<Checkbox labelText="Full Time Only" />
+			<Button type="submit" on:click={closeDialog}>Search</Button>
+		</div>
+	</div>
+{/if}
+
 <style>
+	.dialog {
+		z-index: 2;
+		position: fixed;
+		display: grid;
+		padding-inline: 1.5rem;
+		place-items: center;
+		background-color: hsl(0 100% 0% / 0.5);
+		inset: 0;
+	}
+
+	.dialog-content {
+		display: grid;
+		background-color: var(--accentBg);
+		width: 100%;
+		max-width: 450px;
+		margin-block: auto;
+		border-radius: 6px;
+		padding-block: 1.5rem;
+	}
+
+	.dialog-content > :global(:not(hr)) {
+		margin-inline: 1.5rem;
+	}
+
+	.dialog-content > :global(button) {
+		margin-block-start: 1.5rem;
+	}
+
 	.wrapper {
 		display: flex;
 		align-items: center;
@@ -43,13 +102,8 @@
 		display: flex;
 	}
 
-	hr {
+	.wrapper > :global(hr) {
 		display: none;
-		height: 100%;
-		margin-block: 0;
-		margin-inline: 1.25rem;
-		border-right: 1px solid var(--accentText);
-		opacity: 0.2;
 	}
 
 	input[type='search'] {
@@ -65,7 +119,7 @@
 		gap: 1rem;
 	}
 
-	label :global(svg) {
+	.wrapper label :global(svg) {
 		display: none;
 	}
 
@@ -98,7 +152,7 @@
 			padding-inline: 1rem;
 		}
 
-		hr {
+		.wrapper > :global(hr) {
 			display: block;
 		}
 
@@ -114,18 +168,18 @@
 			display: flex;
 		}
 
-		label :global(svg) {
+		.wrapper label :global(svg) {
 			display: initial;
+		}
+
+		.dialog {
+			display: none;
 		}
 	}
 
 	@media (min-width: 69.375rem) {
 		.wrapper {
 			padding-inline: 1.25rem;
-		}
-
-		hr {
-			margin-inline: 1.5rem;
 		}
 	}
 </style>

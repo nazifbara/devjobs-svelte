@@ -10,9 +10,3 @@
 		<slot />
 	</main>
 </ThemeProvider>
-
-<style>
-	main {
-		transform: translateY(-2.5rem);
-	}
-</style>
