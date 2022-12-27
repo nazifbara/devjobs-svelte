@@ -2,6 +2,10 @@ body {
 	font-family: 'Kumbh Sans', sans-serif;
 }
 
+main {
+	padding-bottom: 4rem;
+}
+
 button {
 	color: inherit;
 }

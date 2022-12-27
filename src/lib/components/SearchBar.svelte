@@ -8,7 +8,7 @@
 	import Icon from './Icon.svelte';
 	import Separator from './Separator.svelte';
 
-	let filtering = true;
+	let filtering = false;
 	const closeDialog = () => (filtering = false);
 </script>
 
