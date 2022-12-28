@@ -1,15 +1,15 @@
 <script lang="ts">
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Heading from '$lib/components/Heading.svelte';
-	import data from '$lib/data.json';
 	import Button from '$lib/components/Button.svelte';
+	import { jobs } from '$lib/store';
 </script>
 
 <SearchBar />
 
 <section>
 	<ul class="job-list">
-		{#each data as job}
+		{#each $jobs as job}
 			<li style:--logoBg={job.logoBackground}>
 				<a href="/job/{job.id}" class="job-card">
 					<picture>
