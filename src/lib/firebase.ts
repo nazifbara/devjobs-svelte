@@ -1,5 +1,14 @@
 import { initializeApp } from 'firebase/app';
+import type { Job } from './types';
+import {
+	collection,
+	query,
+	getDocs,
+	initializeFirestore,
+	CACHE_SIZE_UNLIMITED
+} from 'firebase/firestore';
 import type { FirebaseApp } from 'firebase/app';
+import type { Firestore } from 'firebase/firestore';
 
 import {
 	PUBLIC_FIREBASE_FIREBASE_APIKEY,
@@ -19,6 +28,28 @@ const config = {
 	appId: PUBLIC_FIREBASE_APP_ID
 };
 
-export let firebaseApp: FirebaseApp | null = null;
+let firebaseApp: FirebaseApp;
+
+let firestore: Firestore;
 
 export const initializeFirebase = () => (firebaseApp = initializeApp(config));
+
+export const getFirebaseApp = () => {
+	if (!firebaseApp) {
+		initializeFirebase();
+	}
+	return firebaseApp;
+};
+
+export const db = (): Firestore => {
+	if (!firestore) {
+		firestore = initializeFirestore(getFirebaseApp(), { cacheSizeBytes: CACHE_SIZE_UNLIMITED });
+	}
+	return firestore;
+};
+
+export const getList = async (path: string) => {
+	const q = query(collection(db(), path));
+	const querySnapshot = await getDocs(q);
+	return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Job[];
+};

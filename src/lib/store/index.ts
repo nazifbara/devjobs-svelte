@@ -1,11 +1,12 @@
+import type { Job } from '$lib/types';
 import { writable } from 'svelte/store';
-import data from '../data.json';
 
 const createJobs = () => {
-	const { subscribe } = writable(data);
+	const { subscribe, set } = writable<Job[]>([]);
 
 	return {
-		subscribe
+		subscribe,
+		set
 	};
 };
 

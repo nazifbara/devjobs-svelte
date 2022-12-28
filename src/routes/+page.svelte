@@ -1,8 +1,16 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import type { PageServerData } from './$types';
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { jobs } from '$lib/store';
+
+	export let data: PageServerData;
+
+	onMount(() => {
+		jobs.set(data.jobs);
+	});
 </script>
 
 <SearchBar />
