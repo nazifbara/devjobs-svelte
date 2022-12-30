@@ -1,23 +1,41 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { orderBy, startAfter, limit } from 'firebase/firestore';
+
 	import type { PageServerData } from './$types';
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { jobs } from '$lib/store';
+	import { getList, getItem } from '$lib/firebase';
+	import { toArrayQuerySnap } from '$lib/utils/helpers';
+	import type { Job } from '$lib/types';
 
 	export let data: PageServerData;
 
-	onMount(() => {
-		jobs.set(data.jobs);
-	});
+	let jobs = data.jobs;
+	let hasMoreJobs = true;
+	let isLoadingMoreJobs = false;
+
+	const loadMore = async () => {
+		isLoadingMoreJobs = true;
+		const lastJob = await getItem('jobs', jobs[jobs.length - 1].id);
+		const newJobs = toArrayQuerySnap<Job>(
+			await getList('jobs', orderBy('postedAt'), startAfter(lastJob), limit(9))
+		);
+
+		if (newJobs.length === 0) {
+			hasMoreJobs = false;
+		}
+
+		jobs = [...jobs, ...newJobs];
+		isLoadingMoreJobs = false;
+	};
 </script>
 
 <SearchBar />
 
 <section>
 	<ul class="job-list">
-		{#each $jobs as job}
+		{#each jobs as job}
 			<li style:--logoBg={job.logoBackground}>
 				<a href="/job/{job.id}" class="job-card">
 					<picture>
@@ -33,7 +51,15 @@
 		{/each}
 	</ul>
 
-	<Button>Load More</Button>
+	{#if hasMoreJobs}
+		<Button on:click={loadMore}>
+			{#if isLoadingMoreJobs}
+				Loading...
+			{:else}
+				Load More
+			{/if}
+		</Button>
+	{/if}
 </section>
 
 <style>

@@ -1,11 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import type { Job } from './types';
 import {
 	collection,
 	query,
 	getDocs,
+	getDoc,
 	initializeFirestore,
-	CACHE_SIZE_UNLIMITED
+	CACHE_SIZE_UNLIMITED,
+	QueryConstraint,
+	doc
 } from 'firebase/firestore';
 import type { FirebaseApp } from 'firebase/app';
 import type { Firestore } from 'firebase/firestore';
@@ -48,8 +50,12 @@ export const db = (): Firestore => {
 	return firestore;
 };
 
-export const getList = async (path: string) => {
-	const q = query(collection(db(), path));
-	const querySnapshot = await getDocs(q);
-	return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Job[];
+export const getList = async (path: string, ...queryConstraint: QueryConstraint[]) => {
+	const q = query(collection(db(), path), ...queryConstraint);
+	return await getDocs(q);
+};
+
+export const getItem = async (path: string, id: string) => {
+	const docRef = doc(db(), path, id);
+	return await getDoc(docRef);
 };
