@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
+	import { QueryConstraint, where, orderBy } from 'firebase/firestore';
 
 	import IconButton from './IconButton.svelte';
 	import Checkbox from './Checkbox.svelte';
@@ -8,30 +10,54 @@
 	import Icon from './Icon.svelte';
 	import Separator from './Separator.svelte';
 
+	const dispatch = createEventDispatcher();
+
 	let filtering = false;
+	let position = '';
+	let location = '';
+	let fullTime = false;
+
+	$: contract = fullTime === true ? 'Full Time' : '';
+	$: searchTerms = {
+		position,
+		location,
+		contract
+	};
+	$: queryContraints = Object.entries(searchTerms).reduce((prev: QueryConstraint[], curr) => {
+		if (curr[1] === '') {
+			return prev;
+		}
+		return [...prev, where(curr[0], '==', curr[1])];
+	}, []);
+
+	const onSearch = () => {
+		dispatch('search', {
+			queryContraints
+		});
+	};
 	const closeDialog = () => (filtering = false);
 </script>
 
 <form class="wrapper main-bar">
 	<label>
 		<Icon name="search" />
-		<input type="search" placeholder="Filter by title..." />
+		<input bind:value={position} type="search" placeholder="Filter by title..." />
 	</label>
 	<Separator type="vertical" />
 	<label class="location">
 		<Icon name="location" />
-		<input type="search" placeholder="Filter by location..." />
+		<input bind:value={location} type="search" placeholder="Filter by location..." />
 	</label>
 	<Separator type="vertical" />
 	<div class="action">
-		<Checkbox labelText="Full Time Only" />
+		<Checkbox bind:checked={fullTime} labelText="Full Time Only" />
 
-		<Button type="submit">Search</Button>
+		<Button type="submit" on:click={onSearch}>Search</Button>
 	</div>
 
 	<div class="mobile-action">
 		<IconButton on:click={() => (filtering = true)} name="filter" />
-		<IconButton name="search" type="primary" />
+		<IconButton on:click={onSearch} name="search" type="primary" />
 	</div>
 </form>
 
@@ -54,7 +80,7 @@
 			</label>
 			<Separator />
 			<Checkbox labelText="Full Time Only" />
-			<Button type="submit" on:click={closeDialog}>Search</Button>
+			<Button type="submit" on:click={onSearch} on:click={closeDialog}>Search</Button>
 		</div>
 	</div>
 {/if}

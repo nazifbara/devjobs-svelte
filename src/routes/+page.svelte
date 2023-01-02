@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { orderBy, startAfter, limit } from 'firebase/firestore';
+	import { orderBy, startAfter, limit, QueryConstraint } from 'firebase/firestore';
 
 	import type { PageServerData } from './$types';
 	import SearchBar from '$lib/components/SearchBar.svelte';
@@ -14,51 +14,74 @@
 	let jobs = data.jobs;
 	let hasMoreJobs = true;
 	let isLoadingMoreJobs = false;
+	let errorMessage = '';
+	let searchQuery: QueryConstraint[] = [];
 
 	const loadMore = async () => {
 		isLoadingMoreJobs = true;
-		const lastJob = await getItem('jobs', jobs[jobs.length - 1].id);
-		const newJobs = toArrayQuerySnap<Job>(
-			await getList('jobs', orderBy('postedAt'), startAfter(lastJob), limit(9))
-		);
+		errorMessage = '';
+		try {
+			const lastJob = await getItem('jobs', jobs[jobs.length - 1].id);
+			const newJobs = toArrayQuerySnap<Job>(
+				await getList('jobs', orderBy('postedAt'), startAfter(lastJob), limit(9), ...searchQuery)
+			);
 
-		if (newJobs.length === 0) {
-			hasMoreJobs = false;
+			if (newJobs.length === 0) {
+				hasMoreJobs = false;
+			}
+
+			jobs = [...jobs, ...newJobs];
+		} catch (error) {
+			console.error(error);
+
+			errorMessage = 'Something went wrong. Please try again.';
 		}
-
-		jobs = [...jobs, ...newJobs];
 		isLoadingMoreJobs = false;
+	};
+
+	const handleSearch = async (e: CustomEvent) => {
+		const queryContraints: QueryConstraint[] = e.detail.queryContraints;
+		jobs = toArrayQuerySnap(await getList('jobs', ...[...queryContraints, limit(9)]));
+		searchQuery = queryContraints;
+		console.log(jobs);
 	};
 </script>
 
-<SearchBar />
+<SearchBar on:search={handleSearch} />
 
 <section>
-	<ul class="job-list">
-		{#each jobs as job}
-			<li style:--logoBg={job.logoBackground}>
-				<a href="/job/{job.id}" class="job-card">
-					<picture>
-						<img src={job.logo} alt="{job.company} logo" />
-					</picture>
+	{#if jobs.length !== 0}
+		<ul class="job-list">
+			{#each jobs as job}
+				<li style:--logoBg={job.logoBackground}>
+					<a href="/job/{job.id}" class="job-card">
+						<picture>
+							<img src={job.logo} alt="{job.company} logo" />
+						</picture>
 
-					<span><time>{job.postedAt}</time><span>{job.contract}</span></span>
-					<Heading as="h2" type="h3">{job.position}</Heading>
-					<p>{job.company}</p>
-					<strong>{job.location}</strong>
-				</a>
-			</li>
-		{/each}
-	</ul>
+						<span><time>{job.postedAt}</time><span>{job.contract}</span></span>
+						<Heading as="h2" type="h3">{job.position}</Heading>
+						<p>{job.company}</p>
+						<strong>{job.location}</strong>
+					</a>
+				</li>
+			{/each}
+		</ul>
 
-	{#if hasMoreJobs}
-		<Button on:click={loadMore}>
-			{#if isLoadingMoreJobs}
-				Loading...
-			{:else}
-				Load More
-			{/if}
-		</Button>
+		{#if errorMessage}
+			<span style="color: red;">{errorMessage}</span>
+		{/if}
+		{#if hasMoreJobs}
+			<Button on:click={loadMore}>
+				{#if isLoadingMoreJobs}
+					Loading...
+				{:else}
+					Load More
+				{/if}
+			</Button>
+		{/if}
+	{:else}
+		<span>No jobs found for this search terms</span>
 	{/if}
 </section>
 

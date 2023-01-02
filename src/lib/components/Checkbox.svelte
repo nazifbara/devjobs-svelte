@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let labelText: string = '';
+	export let checked = false;
 </script>
 
 <label class="wrapper">
-	<input type="checkbox" />
+	<input bind:checked type="checkbox" />
 	<span class="checkmark" />
 	{labelText}
 </label>
