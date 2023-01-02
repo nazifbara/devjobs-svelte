@@ -1,10 +1,12 @@
 import { error } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
+import type { Job } from '$lib/types';
 import { getItem } from '$lib/firebase';
+import { toObjectDocSnap } from '$lib/utils/helpers';
 
 export const load = (async ({ params: { id } }) => {
-	const job = (await getItem('jobs', id)).data();
+	const job = toObjectDocSnap<Job>(await getItem('jobs', id));
 
 	if (!job) {
 		throw error(404, {
