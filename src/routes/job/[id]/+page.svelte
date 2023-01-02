@@ -1,1 +1,7 @@
-<h1>Hello Job</h1>
+<script lang="ts">
+	import type { PageServerData } from './$types';
+
+	export let data: PageServerData;
+
+	console.log(data);
+</script>
