@@ -20,7 +20,7 @@
 	}
 
 	.h2 {
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 	}
 
 	.h3 {
@@ -29,5 +29,11 @@
 
 	.h4 {
 		font-size: 0.875rem;
+	}
+
+	@media (min-width: 48rem) {
+		.h2 {
+			font-size: 1.5rem;
+		}
 	}
 </style>

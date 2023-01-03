@@ -22,6 +22,7 @@ export const theme = {
 			accentTextContrastO50: 'hsl(219 29% 14% / 0.50)',
 			btn2bg: common.colors.primaryBgO10,
 			btn2bgHover: common.colors.primaryBgO35,
+			btn2Text: common.colors.primary,
 			icon: 'hsl(214 17% 51%)'
 		}
 	},
@@ -35,6 +36,7 @@ export const theme = {
 			accentTextContrastO50: 'hsl(0 0% 100% / 0.50)',
 			btn2bg: 'hsl(0 0% 100% / 0.1)',
 			btn2bgHover: 'hsl(0 0% 100% / 0.35)',
+			btn2Text: 'hsl(0 0% 100%)',
 			icon: 'hsl(0 0% 100%)'
 		}
 	}

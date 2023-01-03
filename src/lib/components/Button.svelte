@@ -1,14 +1,24 @@
 <script lang="ts">
+	export let as: string = 'button';
 	export let kind: 'primary' | 'basic' = 'primary';
 	export let type: string = 'button';
 </script>
 
-<button {type} on:click class:primary={kind === 'primary'} class="btn">
+<svelte:element
+	this={as}
+	{type}
+	on:click
+	on:keydown
+	class:primary={kind === 'primary'}
+	class="btn"
+	{...$$restProps}
+>
 	<slot />
-</button>
+</svelte:element>
 
 <style>
 	.btn {
+		text-decoration: none;
 		height: 3rem;
 		padding-inline: 0.875rem;
 		display: grid;
@@ -16,7 +26,7 @@
 		place-content: center;
 		background-color: var(--btn2bg);
 		border-radius: 0.313rem;
-		color: white;
+		color: var(--btn2Text);
 		font-weight: 700;
 		transition: background-color 0.3s ease-out;
 	}
@@ -27,6 +37,7 @@
 
 	.btn.primary {
 		background-color: var(--primary);
+		color: white;
 	}
 
 	.btn.primary:hover {
