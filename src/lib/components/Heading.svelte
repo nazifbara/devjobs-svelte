@@ -16,7 +16,7 @@
 	}
 
 	.h1 {
-		font-size: 1.75rem;
+		font-size: 1.25rem;
 	}
 
 	.h2 {
@@ -32,6 +32,10 @@
 	}
 
 	@media (min-width: 48rem) {
+		.h1 {
+			font-size: 1.75rem;
+		}
+
 		.h2 {
 			font-size: 1.5rem;
 		}

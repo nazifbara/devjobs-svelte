@@ -5,6 +5,7 @@
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import TimeContract from '$lib/components/TimeContract.svelte';
 	import { getList, getItem } from '$lib/firebase';
 	import { toArrayQuerySnap } from '$lib/utils/helpers';
 	import type { Job } from '$lib/types';
@@ -59,7 +60,10 @@
 							<img src={job.logo} alt="{job.company} logo" />
 						</picture>
 
-						<span><time>{job.postedAt}</time><span>{job.contract}</span></span>
+						<TimeContract>
+							<span slot="time">{job.postedAt}</span>
+							<span slot="contract">{job.contract}</span>
+						</TimeContract>
 						<Heading as="h2" type="h3">{job.position}</Heading>
 						<p>{job.company}</p>
 						<strong>{job.location}</strong>
@@ -125,16 +129,6 @@
 		background-color: var(--logoBg);
 		height: 3.125rem;
 		width: 3.125rem;
-	}
-
-	.job-card time::after {
-		content: '';
-		display: inline-block;
-		width: 4px;
-		height: 4px;
-		border-radius: 50%;
-		background-color: var(--accentText);
-		margin-inline: 0.75rem;
 	}
 
 	.job-card > :global(:not(p)) {

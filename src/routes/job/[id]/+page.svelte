@@ -2,6 +2,7 @@
 	import type { PageServerData } from './$types';
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import TimeContract from '$lib/components/TimeContract.svelte';
 
 	export let data: PageServerData;
 
@@ -24,12 +25,18 @@
 		<Button as="a" href={job.website} kind="basic">Company Site</Button>
 	</header>
 
-	<div>
-		<section>
-			<span><time>{job.postedAt}</time><span>{job.contract}</span></span>
-			<h1>{job.position}</h1>
-			<span>{job.location}</span>
-			<a href={job.apply}>Apply Now</a>
+	<div class="content">
+		<section class="position">
+			<div class="text">
+				<TimeContract>
+					<span slot="time">{job.postedAt}</span>
+					<span slot="contract">{job.contract}</span>
+				</TimeContract>
+				<Heading type="h1">{job.position}</Heading>
+				<span class="location">{job.location}</span>
+			</div>
+
+			<Button as="a" kind="primary" href={job.apply}>Apply Now</Button>
 		</section>
 
 		<section>
@@ -37,7 +44,7 @@
 		</section>
 
 		<section>
-			<h2>Requirements</h2>
+			<Heading as="h2" type="h3">Requirements</Heading>
 			<p>{job.requirements.content}</p>
 			<ul>
 				{#each job.requirements.items as requirement}
@@ -49,11 +56,12 @@
 		</section>
 
 		<section>
-			<h2>What You Will Do</h2>
+			<Heading as="h2" type="h3">What You Will Do</Heading>
 			<p>{job.role.content}</p>
 			<ol>
-				{#each job.role.items as role}
+				{#each job.role.items as role, i}
 					<li>
+						<span>{i + 1}</span>
 						{role}
 					</li>
 				{/each}
@@ -73,6 +81,10 @@
 		margin-inline: auto;
 	}
 
+	article > * {
+		border-radius: 0.375rem;
+	}
+
 	header {
 		display: grid;
 		place-content: center;
@@ -84,7 +96,6 @@
 		text-align: center;
 		position: relative;
 		background-color: var(--accentBg);
-		border-radius: 0.375rem;
 		height: 12.813rem;
 		margin-bottom: 1.5rem;
 	}
@@ -100,6 +111,60 @@
 		background-color: var(--logoBg);
 		height: 3.125rem;
 		width: 3.125rem;
+	}
+
+	.content {
+		display: grid;
+		gap: 2rem;
+		background-color: var(--accentBg);
+		padding: 1.5rem;
+		line-height: 1.625rem;
+	}
+
+	.content :global(h2) {
+		margin-bottom: 1.5rem;
+	}
+
+	.position {
+		display: grid;
+		gap: 3.125rem;
+	}
+
+	.position .text {
+		display: grid;
+		gap: 0.25rem;
+	}
+
+	.position .location {
+		color: var(--primary);
+		font-weight: 700;
+	}
+
+	ul,
+	ol {
+		margin-top: 2rem;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	ul li,
+	ol li {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.5rem;
+	}
+
+	ul li::before,
+	ol li > *:first-child {
+		color: var(--primary);
+		font-weight: bold;
+		display: inline-block;
+	}
+
+	ul li::before {
+		content: '\2022';
 	}
 
 	@media (min-width: 48rem) {
@@ -133,6 +198,20 @@
 
 		picture img {
 			width: 5rem;
+		}
+
+		.content {
+			padding: 3rem;
+		}
+
+		.position {
+			grid-template-columns: 1fr minmax(auto, 8.75rem);
+			align-items: center;
+			gap: 1rem;
+		}
+
+		.position .text {
+			gap: 0.5rem;
 		}
 	}
 </style>
