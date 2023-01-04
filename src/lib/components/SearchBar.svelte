@@ -34,6 +34,7 @@
 		dispatch('search', {
 			queryContraints
 		});
+		closeDialog();
 	};
 	const closeDialog = () => (filtering = false);
 </script>
@@ -76,11 +77,11 @@
 		>
 			<label>
 				<Icon name="location" />
-				<input type="search" placeholder="Filter by location..." />
+				<input bind:value={location} type="search" placeholder="Filter by location..." />
 			</label>
 			<Separator />
-			<Checkbox labelText="Full Time Only" />
-			<Button type="submit" on:click={onSearch} on:click={closeDialog}>Search</Button>
+			<Checkbox bind:checked={fullTime} labelText="Full Time Only" />
+			<Button type="submit" on:click={onSearch}>Search</Button>
 		</div>
 	</div>
 {/if}
