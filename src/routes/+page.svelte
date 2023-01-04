@@ -15,6 +15,7 @@
 	let jobs = data.jobs;
 	let hasMoreJobs = true;
 	let isLoadingMoreJobs = false;
+	let isSearching = false;
 	let errorMessage = '';
 	let searchQuery: QueryConstraint[] = [];
 
@@ -41,17 +42,19 @@
 	};
 
 	const handleSearch = async (e: CustomEvent) => {
+		isSearching = true;
 		const queryContraints: QueryConstraint[] = e.detail.queryContraints;
 		jobs = toArrayQuerySnap(await getList('jobs', ...[...queryContraints, limit(9)]));
 		searchQuery = queryContraints;
-		console.log(jobs);
+		hasMoreJobs = true;
+		isSearching = false;
 	};
 </script>
 
 <SearchBar on:search={handleSearch} />
 
 <section>
-	{#if jobs.length !== 0}
+	{#if jobs.length !== 0 && !isSearching}
 		<ul class="job-list">
 			{#each jobs as job}
 				<li style:--logoBg={job.logoBackground}>
@@ -84,6 +87,8 @@
 				{/if}
 			</Button>
 		{/if}
+	{:else if isSearching}
+		<span>Searching...</span>
 	{:else}
 		<span>No jobs found for this search terms</span>
 	{/if}
