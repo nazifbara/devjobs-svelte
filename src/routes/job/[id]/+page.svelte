@@ -71,7 +71,15 @@
 </article>
 
 <footer>
-	<a href={job.apply}>Apply Now</a>
+	<div>
+		<div>
+			<Heading as="h2" type="h3">
+				{job.position}
+			</Heading>
+			<span>So Digital Inc.</span>
+		</div>
+		<Button as="a" href={job.apply}>Apply Now</Button>
+	</div>
 </footer>
 
 <style>
@@ -111,6 +119,23 @@
 		background-color: var(--logoBg);
 		height: 3.125rem;
 		width: 3.125rem;
+	}
+
+	footer {
+		background-color: var(--accentBg);
+		padding: 1.5rem;
+		position: absolute;
+		right: 0;
+		left: 0;
+	}
+
+	footer > div {
+		max-width: 45.625rem;
+		margin-inline: auto;
+	}
+
+	footer > div > div {
+		display: none;
 	}
 
 	.content {
@@ -198,6 +223,18 @@
 
 		picture img {
 			width: 5rem;
+		}
+
+		footer > div {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		footer > div > div {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
 		}
 
 		.content {
