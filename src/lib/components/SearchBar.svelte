@@ -53,7 +53,7 @@
 	<div class="action">
 		<Checkbox bind:checked={fullTime} labelText="Full Time Only" />
 
-		<Button type="submit" on:click={onSearch}>Search</Button>
+		<Button type="submit" on:btn-click={onSearch}>Search</Button>
 	</div>
 
 	<div class="mobile-action">
@@ -81,7 +81,7 @@
 			</label>
 			<Separator />
 			<Checkbox bind:checked={fullTime} labelText="Full Time Only" />
-			<Button type="submit" on:click={onSearch}>Search</Button>
+			<Button type="submit" on:btn-click={onSearch}>Search</Button>
 		</div>
 	</div>
 {/if}

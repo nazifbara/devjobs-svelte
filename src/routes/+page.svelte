@@ -79,7 +79,7 @@
 			<span style="color: red;">{errorMessage}</span>
 		{/if}
 		{#if hasMoreJobs}
-			<Button on:click={loadMore}>
+			<Button on:btn-click={loadMore}>
 				{#if isLoadingMoreJobs}
 					Loading...
 				{:else}

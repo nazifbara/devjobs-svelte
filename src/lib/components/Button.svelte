@@ -1,14 +1,19 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+
 	export let as: string = 'button';
 	export let kind: 'primary' | 'basic' = 'primary';
-	export let type: string = 'button';
+
+	const dispatch = createEventDispatcher();
+
+	const handleClick = () => {
+		dispatch('btn-click');
+	};
 </script>
 
 <svelte:element
 	this={as}
-	{type}
-	on:click
-	on:keydown
+	on:click={handleClick}
 	class:primary={kind === 'primary'}
 	class="btn"
 	{...$$restProps}
