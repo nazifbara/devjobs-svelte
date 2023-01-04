@@ -145,6 +145,10 @@
 		gap: 1rem;
 	}
 
+	.wrapper > label {
+		grid-template-columns: 1fr;
+	}
+
 	.wrapper label :global(svg) {
 		display: none;
 	}
@@ -154,7 +158,7 @@
 		flex: 1;
 	}
 
-	.location,
+	.wrapper .location,
 	.action {
 		display: none;
 	}
@@ -186,12 +190,16 @@
 			display: none;
 		}
 
-		.location {
+		.wrapper .location {
 			display: grid;
 		}
 
 		.action {
 			display: flex;
+		}
+
+		.wrapper > label {
+			grid-template-columns: auto 1fr;
 		}
 
 		.wrapper label :global(svg) {
