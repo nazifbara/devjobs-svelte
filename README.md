@@ -36,6 +36,7 @@ Users should be able to:
 - CSS Grid
 - Mobile-first workflow
 - [SvelteKit](https://kit.svelte.dev/) - JS library
+- [Firebase](https://firebase.google.com/) - Backend
 
 ## Author
 
