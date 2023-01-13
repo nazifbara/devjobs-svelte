@@ -21,7 +21,7 @@
 	<slot />
 </svelte:element>
 
-<style>
+<style lang="scss">
 	.btn {
 		text-decoration: none;
 		height: 3rem;
@@ -34,18 +34,23 @@
 		color: var(--btn2Text);
 		font-weight: 700;
 		transition: background-color 0.3s ease-out;
-	}
 
-	.btn:hover {
-		background-color: var(--btn2bgHover);
-	}
+		&:hover {
+			background-color: var(--btn2bgHover);
+		}
 
-	.btn.primary {
-		background-color: var(--primary);
-		color: white;
-	}
+		&.primary {
+			background-color: var(--primary);
+			color: white;
+		}
 
-	.btn.primary:hover {
-		background-color: var(--primaryLight);
+		&.primary {
+			background-color: var(--primary);
+			color: white;
+		}
+
+		&.primary:hover {
+			background-color: var(--primaryLight);
+		}
 	}
 </style>

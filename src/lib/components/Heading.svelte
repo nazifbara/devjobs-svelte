@@ -8,7 +8,9 @@
 	<slot />
 </svelte:element>
 
-<style>
+<style lang="scss">
+	@use '$lib/scss/mixins' as *;
+
 	.heading {
 		display: block;
 		color: var(--accentTextContrast);
@@ -31,7 +33,7 @@
 		font-size: 0.875rem;
 	}
 
-	@media (min-width: 48rem) {
+	@include md-bp {
 		.h1 {
 			font-size: 1.75rem;
 		}

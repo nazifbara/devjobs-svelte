@@ -19,7 +19,7 @@
 	<Icon name="moon" />
 </div>
 
-<style>
+<style lang="scss">
 	.wrapper {
 		display: flex;
 		align-items: center;
@@ -31,16 +31,16 @@
 		display: inline-block;
 		height: 1.5rem;
 		width: 3rem;
+
+		& input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
 	}
 
 	.switch:hover .slider::before {
 		background-color: var(--primaryLight);
-	}
-
-	.switch input {
-		opacity: 0;
-		width: 0;
-		height: 0;
 	}
 
 	.slider {
@@ -49,18 +49,18 @@
 		inset: 0;
 		background-color: hsl(0 0% 100%);
 		border-radius: 0.75rem;
-	}
 
-	.slider:before {
-		position: absolute;
-		content: '';
-		height: 0.875rem;
-		width: 0.875rem;
-		left: 0.313rem;
-		bottom: 0.313rem;
-		border-radius: 50%;
-		background-color: var(--primary);
-		transition: 0.4s;
+		&:before {
+			position: absolute;
+			content: '';
+			height: 0.875rem;
+			width: 0.875rem;
+			left: 0.313rem;
+			bottom: 0.313rem;
+			border-radius: 50%;
+			background-color: var(--primary);
+			transition: 0.4s;
+		}
 	}
 
 	input:checked + .slider::before {

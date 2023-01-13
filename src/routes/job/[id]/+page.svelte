@@ -82,15 +82,21 @@
 	</div>
 </footer>
 
-<style>
+<style lang="scss">
+	@use '$lib/scss/mixins' as *;
+
 	article {
 		transform: translateY(-1rem);
 		max-width: 45.625rem;
 		margin-inline: auto;
-	}
 
-	article > * {
-		border-radius: 0.375rem;
+		> * {
+			border-radius: 0.375rem;
+		}
+
+		@include md-bp {
+			transform: translateY(-3rem);
+		}
 	}
 
 	header {
@@ -106,6 +112,23 @@
 		background-color: var(--accentBg);
 		height: 12.813rem;
 		margin-bottom: 1.5rem;
+
+		@include md-bp {
+			grid-template-columns: 8.75rem repeat(2, 1fr);
+			align-items: center;
+			justify-items: center;
+			grid-template-rows: 1fr;
+			gap: 2.5rem;
+			padding: 0;
+			height: 8.75rem;
+			margin-bottom: 2rem;
+			overflow: hidden;
+			text-align: left;
+
+			> div {
+				justify-self: start;
+			}
+		}
 	}
 
 	picture {
@@ -119,6 +142,17 @@
 		background-color: var(--logoBg);
 		height: 3.125rem;
 		width: 3.125rem;
+
+		@include md-bp {
+			position: initial;
+			border-radius: 0;
+			height: 100%;
+			width: 100%;
+
+			img {
+				width: 5rem;
+			}
+		}
 	}
 
 	footer {
@@ -127,42 +161,67 @@
 		position: absolute;
 		right: 0;
 		left: 0;
-	}
 
-	footer > div {
-		max-width: 45.625rem;
-		margin-inline: auto;
-	}
+		> div {
+			max-width: 45.625rem;
+			margin-inline: auto;
 
-	footer > div > div {
-		display: none;
-	}
+			@include md-bp {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+		}
 
+		> div > div {
+			display: none;
+
+			@include md-bp {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+		}
+	}
 	.content {
 		display: grid;
 		gap: 2rem;
 		background-color: var(--accentBg);
 		padding: 1.5rem;
 		line-height: 1.625rem;
-	}
 
-	.content :global(h2) {
-		margin-bottom: 1.5rem;
+		:global(h2) {
+			margin-bottom: 1.5rem;
+		}
+
+		@include md-bp {
+			padding: 3rem;
+		}
 	}
 
 	.position {
 		display: grid;
 		gap: 3.125rem;
-	}
 
-	.position .text {
-		display: grid;
-		gap: 0.25rem;
-	}
+		@include md-bp {
+			grid-template-columns: 1fr minmax(auto, 8.75rem);
+			align-items: center;
+			gap: 1rem;
+		}
 
-	.position .location {
-		color: var(--primary);
-		font-weight: 700;
+		.text {
+			display: grid;
+			gap: 0.25rem;
+
+			@include md-bp {
+				gap: 0.5rem;
+			}
+		}
+
+		.location {
+			color: var(--primary);
+			font-weight: 700;
+		}
 	}
 
 	ul,
@@ -190,65 +249,5 @@
 
 	ul li::before {
 		content: '\2022';
-	}
-
-	@media (min-width: 48rem) {
-		article {
-			transform: translateY(-3rem);
-		}
-
-		header {
-			grid-template-columns: 8.75rem repeat(2, 1fr);
-			align-items: center;
-			justify-items: center;
-			grid-template-rows: 1fr;
-			gap: 2.5rem;
-			padding: 0;
-			height: 8.75rem;
-			margin-bottom: 2rem;
-			overflow: hidden;
-			text-align: left;
-		}
-
-		header > div {
-			justify-self: start;
-		}
-
-		picture {
-			position: initial;
-			border-radius: 0;
-			height: 100%;
-			width: 100%;
-		}
-
-		picture img {
-			width: 5rem;
-		}
-
-		footer > div {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		footer > div > div {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-
-		.content {
-			padding: 3rem;
-		}
-
-		.position {
-			grid-template-columns: 1fr minmax(auto, 8.75rem);
-			align-items: center;
-			gap: 1rem;
-		}
-
-		.position .text {
-			gap: 0.5rem;
-		}
 	}
 </style>

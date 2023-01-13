@@ -10,24 +10,24 @@
 	<Icon {name} />
 </button>
 
-<style>
+<style lang="scss">
 	button {
 		display: grid;
 		place-content: center;
 		place-items: center;
 		border-radius: 0.313rem;
 		padding: 0.875rem;
-	}
 
-	button :global(svg path) {
-		fill: var(--icon);
+		& :global(svg path) {
+			fill: var(--icon);
+		}
 	}
 
 	.primary {
 		background-color: var(--primary);
-	}
 
-	.primary :global(svg path) {
-		fill: white;
+		& :global(svg path) {
+			fill: white;
+		}
 	}
 </style>

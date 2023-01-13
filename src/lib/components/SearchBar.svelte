@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { QueryConstraint, where, orderBy } from 'firebase/firestore';
+	import { QueryConstraint, where } from 'firebase/firestore';
 
 	import IconButton from './IconButton.svelte';
 	import Checkbox from './Checkbox.svelte';
@@ -86,7 +86,9 @@
 	</div>
 {/if}
 
-<style>
+<style lang="scss">
+	@use '$lib/scss/mixins' as *;
+
 	.dialog {
 		z-index: 2;
 		position: fixed;
@@ -105,14 +107,14 @@
 		margin-block: auto;
 		border-radius: 6px;
 		padding-block: 1.5rem;
-	}
 
-	.dialog-content > :global(:not(hr)) {
-		margin-inline: 1.5rem;
-	}
+		& > :global(:not(hr)) {
+			margin-inline: 1.5rem;
+		}
 
-	.dialog-content > :global(button) {
-		margin-block-start: 1.5rem;
+		& > :global(button) {
+			margin-block-start: 1.5rem;
+		}
 	}
 
 	.wrapper {
@@ -123,14 +125,21 @@
 		height: 5rem;
 		border-radius: 0.375rem;
 		padding-inline: 1.5rem;
+		& > :global(hr) {
+			display: none;
+		}
+
+		& > label {
+			grid-template-columns: 1fr;
+		}
+
+		& label :global(svg) {
+			display: none;
+		}
 	}
 
 	.mobile-action {
 		display: flex;
-	}
-
-	.wrapper > :global(hr) {
-		display: none;
 	}
 
 	input[type='search'] {
@@ -144,14 +153,6 @@
 		display: grid;
 		grid-template-columns: auto 1fr;
 		gap: 1rem;
-	}
-
-	.wrapper > label {
-		grid-template-columns: 1fr;
-	}
-
-	.wrapper label :global(svg) {
-		display: none;
 	}
 
 	label,
@@ -168,43 +169,43 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 1.75rem;
-	}
 
-	.action > :global(label) {
-		flex: 3;
-	}
-
-	.action > :global(button) {
-		flex: 2;
-	}
-
-	@media (min-width: 48rem) {
-		.wrapper {
-			padding-inline: 1rem;
+		& > :global(label) {
+			flex: 3;
 		}
 
-		.wrapper > :global(hr) {
-			display: block;
+		& > :global(button) {
+			flex: 2;
+		}
+	}
+
+	@include md-bp {
+		.wrapper {
+			padding-inline: 1rem;
+
+			& > :global(hr) {
+				display: block;
+			}
+
+			& > label {
+				grid-template-columns: auto 1fr;
+			}
+
+			& label :global(svg) {
+				display: initial;
+			}
+
+			& .location {
+				display: grid;
+			}
 		}
 
 		.mobile-action {
 			display: none;
 		}
 
-		.wrapper .location {
-			display: grid;
-		}
-
 		.action {
 			display: flex;
-		}
-
-		.wrapper > label {
-			grid-template-columns: auto 1fr;
-		}
-
-		.wrapper label :global(svg) {
-			display: initial;
 		}
 
 		.dialog {
@@ -212,7 +213,7 @@
 		}
 	}
 
-	@media (min-width: 69.375rem) {
+	@include lg-bp {
 		.wrapper {
 			padding-inline: 1.25rem;
 		}

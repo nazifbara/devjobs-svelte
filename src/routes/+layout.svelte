@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.css';
+	import '$lib/scss/globals.scss';
 
 	import { onMount } from 'svelte';
 

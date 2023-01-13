@@ -94,16 +94,23 @@
 	{/if}
 </section>
 
-<style>
+<style lang="scss">
+	@use '$lib/scss/mixins' as *;
+
 	section {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+
+		& > :global(button) {
+			align-self: center;
+		}
+
+		@include md-bp {
+			gap: 3.5rem;
+		}
 	}
 
-	section > :global(button) {
-		align-self: center;
-	}
 	.job-list {
 		list-style: none;
 		margin-top: 3.563rem;
@@ -111,6 +118,16 @@
 		display: grid;
 		grid-template-rows: repeat(auto-fill, minmax(14.25rem, 1fr));
 		row-gap: 3.063rem;
+
+		@include md-bp {
+			grid-template-columns: repeat(auto-fit, minmax(20.438rem, 1fr));
+			column-gap: 0.688rem;
+			margin-top: 4.375rem;
+		}
+
+		@include lg-bp {
+			column-gap: 1.875rem;
+		}
 	}
 
 	.job-card {
@@ -122,54 +139,33 @@
 		padding: 3.063rem 2rem 2rem 2rem;
 		border-radius: 0.375rem;
 		height: 100%;
-	}
 
-	.job-card picture {
-		position: absolute;
-		top: -1.5625rem;
-		display: grid;
-		place-content: center;
-		place-items: center;
-		border-radius: 0.938rem;
-		background-color: var(--logoBg);
-		height: 3.125rem;
-		width: 3.125rem;
-	}
-
-	.job-card > :global(:not(p)) {
-		margin-bottom: 1rem;
-	}
-
-	.job-card > p {
-		margin-bottom: 2.563rem;
-	}
-
-	.job-card > :last-child {
-		color: var(--primary);
-	}
-
-	.job-card > :global(*) {
-		display: block;
-	}
-
-	@media (min-width: 48rem) {
-		section {
-			gap: 3.5rem;
-		}
-		.job-list {
-			grid-template-columns: repeat(auto-fit, minmax(20.438rem, 1fr));
-			column-gap: 0.688rem;
-			margin-top: 4.375rem;
-		}
-	}
-
-	@media (min-width: 69.375rem) {
-		section {
-			gap: 3.5rem;
+		& picture {
+			position: absolute;
+			top: -1.5625rem;
+			display: grid;
+			place-content: center;
+			place-items: center;
+			border-radius: 0.938rem;
+			background-color: var(--logoBg);
+			height: 3.125rem;
+			width: 3.125rem;
 		}
 
-		.job-list {
-			column-gap: 1.875rem;
+		& > :global(:not(p)) {
+			margin-bottom: 1rem;
+		}
+
+		& > p {
+			margin-bottom: 2.563rem;
+		}
+
+		& > :last-child {
+			color: var(--primary);
+		}
+
+		& > :global(*) {
+			display: block;
 		}
 	}
 </style>
