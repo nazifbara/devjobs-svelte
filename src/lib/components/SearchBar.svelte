@@ -2,7 +2,6 @@
 	import { createEventDispatcher } from 'svelte';
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { QueryConstraint, where } from 'firebase/firestore';
 
 	import IconButton from './IconButton.svelte';
 	import Checkbox from './Checkbox.svelte';
@@ -23,16 +22,10 @@
 		location,
 		contract
 	};
-	$: queryContraints = Object.entries(searchTerms).reduce((prev: QueryConstraint[], curr) => {
-		if (curr[1] === '') {
-			return prev;
-		}
-		return [...prev, where(curr[0], '==', curr[1])];
-	}, []);
 
 	const onSearch = () => {
 		dispatch('search', {
-			queryContraints
+			searchTerms
 		});
 		closeDialog();
 	};

@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { orderBy, startAfter, limit, QueryConstraint } from 'firebase/firestore';
-
+	import { searchFor, getMoreOf } from '$lib/utils/apiClient';
 	import type { PageServerData } from './$types';
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import TimeContract from '$lib/components/TimeContract.svelte';
-	import { getList, getItem } from '$lib/firebase';
-	import { toArrayQuerySnap } from '$lib/utils/helpers';
-	import type { Job } from '$lib/types';
+	import type { AnyProp } from '$lib/types';
 
 	export let data: PageServerData;
 
@@ -17,25 +14,19 @@
 	let isLoadingMoreJobs = false;
 	let isSearching = false;
 	let errorMessage = '';
-	let searchQuery: QueryConstraint[] = [];
+	let searchTerms: AnyProp = {};
 
 	const loadMore = async () => {
 		isLoadingMoreJobs = true;
 		errorMessage = '';
 		try {
-			const lastJob = await getItem('jobs', jobs[jobs.length - 1].id);
-			const newJobs = toArrayQuerySnap<Job>(
-				await getList('jobs', orderBy('postedAt'), startAfter(lastJob), limit(9), ...searchQuery)
-			);
-
+			const newJobs = await getMoreOf('jobs', jobs, searchTerms);
 			if (newJobs.length === 0) {
 				hasMoreJobs = false;
 			}
-
 			jobs = [...jobs, ...newJobs];
 		} catch (error) {
 			console.error(error);
-
 			errorMessage = 'Something went wrong. Please try again.';
 		}
 		isLoadingMoreJobs = false;
@@ -43,9 +34,8 @@
 
 	const handleSearch = async (e: CustomEvent) => {
 		isSearching = true;
-		const queryContraints: QueryConstraint[] = e.detail.queryContraints;
-		jobs = toArrayQuerySnap(await getList('jobs', ...[...queryContraints, limit(9)]));
-		searchQuery = queryContraints;
+		jobs = await searchFor('jobs', e.detail.searchTerms);
+		searchTerms = e.detail.searchTerms;
 		hasMoreJobs = true;
 		isSearching = false;
 	};

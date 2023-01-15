@@ -19,3 +19,11 @@ export interface Job {
 		items: string[];
 	};
 }
+
+export interface EntityWithId {
+	id: string;
+}
+
+export interface AnyProp {
+	[anyProp: string]: unknown;
+}
