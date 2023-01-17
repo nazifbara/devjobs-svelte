@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 import type { AnyProp } from '$lib/types';
 
@@ -14,3 +18,5 @@ export const searchTermsToFilter = (
 	});
 	return f;
 };
+
+export const timeFromNow = (dateTime: string) => `${dayjs(dateTime).fromNow(true)} ago`;

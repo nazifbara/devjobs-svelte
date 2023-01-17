@@ -6,6 +6,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import TimeContract from '$lib/components/TimeContract.svelte';
 	import type { AnyProp } from '$lib/types';
+	import { timeFromNow } from '$lib/utils/helpers';
 
 	export let data: PageServerData;
 
@@ -54,7 +55,7 @@
 						</picture>
 
 						<TimeContract>
-							<span slot="time">{job.created_at}</span>
+							<span slot="time">{timeFromNow(job.created_at)}</span>
 							<span slot="contract">{job.contract}</span>
 						</TimeContract>
 						<Heading as="h2" type="h3">{job.position}</Heading>

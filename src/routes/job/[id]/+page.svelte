@@ -3,6 +3,7 @@
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import TimeContract from '$lib/components/TimeContract.svelte';
+	import { timeFromNow } from '$lib/utils/helpers';
 
 	export let data: PageServerData;
 
@@ -29,7 +30,7 @@
 		<section class="position">
 			<div class="text">
 				<TimeContract>
-					<span slot="time">{job.created_at}</span>
+					<span slot="time">{timeFromNow(job.created_at)}</span>
 					<span slot="contract">{job.contract}</span>
 				</TimeContract>
 				<Heading type="h1">{job.position}</Heading>
