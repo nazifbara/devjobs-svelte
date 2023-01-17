@@ -1,36 +1,44 @@
-import { limit, QueryConstraint, startAfter, orderBy } from 'firebase/firestore';
-
-import { getList, getItem } from '$lib/firebase';
-import { toArrayQuerySnap, searchTermsToConstraints, toObjectDocSnap } from '$lib/utils/helpers';
+import { supabase } from '$lib/supabaseClient';
+import { searchTermsToFilter } from '$lib/utils/helpers';
 import { ENTITIES_COUNT_LIMIT } from '$lib/utils/constants';
 import type { Job, EntityWithId, AnyProp } from '$lib/types';
 
 export const searchFor = async (path: string, searchTerms: AnyProp) => {
-	const queryContraints: QueryConstraint[] = searchTermsToConstraints(searchTerms);
-	return toArrayQuerySnap<Job>(
-		await getList(path, ...[...queryContraints, limit(ENTITIES_COUNT_LIMIT)])
-	);
+	let filterBuilder = supabase.from(path).select();
+	filterBuilder = searchTermsToFilter(filterBuilder, searchTerms);
+
+	const { data } = await filterBuilder.order('created_at').limit(ENTITIES_COUNT_LIMIT);
+	return data as Job[];
 };
 
-export const getById = async <T>(path: string, id: string) =>
-	toObjectDocSnap<T>(await getItem(path, id));
+export const getById = async (path: string, id: string) => {
+	const { data } = await supabase.from(path).select().eq('id', id);
 
-export const getListOf = async <T>(path: string) =>
-	toArrayQuerySnap<T>(await getList(path, orderBy('postedAt'), limit(ENTITIES_COUNT_LIMIT)));
+	return data ? (data[0] as Job) : null;
+};
+
+export const getListOf = async (path: string) => {
+	const { data } = await supabase
+		.from(path)
+		.select()
+		.order('created_at')
+		.limit(ENTITIES_COUNT_LIMIT);
+
+	return data as Job[];
+};
 
 export const getMoreOf = async (
 	path: string,
 	entities: EntityWithId[],
 	searchTerms: AnyProp = {}
 ) => {
-	const lastJob = await getItem(path, entities[entities.length - 1].id);
-	return toArrayQuerySnap<Job>(
-		await getList(
-			path,
-			orderBy('postedAt'),
-			startAfter(lastJob),
-			limit(ENTITIES_COUNT_LIMIT),
-			...searchTermsToConstraints(searchTerms)
-		)
-	);
+	let filterBuilder = supabase.from(path).select();
+	filterBuilder = searchTermsToFilter(filterBuilder, searchTerms);
+
+	const { data } = await filterBuilder
+		.order('created_at')
+		.limit(ENTITIES_COUNT_LIMIT)
+		.range(entities.length, entities.length + ENTITIES_COUNT_LIMIT);
+
+	return data as Job[];
 };

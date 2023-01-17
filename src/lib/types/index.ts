@@ -4,20 +4,16 @@ export interface Job {
 	logo: string;
 	logoBackground: string;
 	position: string;
-	postedAt: string;
+	created_at: string;
 	contract: string;
 	location: string;
 	website: string;
 	apply: string;
 	description: string;
-	requirements: {
-		content: string;
-		items: string[];
-	};
-	role: {
-		content: string;
-		items: string[];
-	};
+	requirements_content: string;
+	requirements_items: string[];
+	role_content: string;
+	role_items: string[];
 }
 
 export interface EntityWithId {

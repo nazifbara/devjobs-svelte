@@ -1,11 +1,10 @@
 import { error } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
-import type { Job } from '$lib/types';
 import { getById } from '$lib/utils/apiClient';
 
 export const load = (async ({ params: { id } }) => {
-	const job = await getById<Job>('jobs', id);
+	const job = await getById('jobs', id);
 
 	if (!job) {
 		throw error(404, {

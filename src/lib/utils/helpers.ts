@@ -1,27 +1,16 @@
-import type { DocumentSnapshot, QuerySnapshot, QueryConstraint } from 'firebase/firestore';
-import { where } from 'firebase/firestore';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 
 import type { AnyProp } from '$lib/types';
 
-export const searchTermsToConstraints = (searchTerms: AnyProp) =>
-	Object.entries(searchTerms).reduce((prev: QueryConstraint[], curr) => {
-		if (curr[1] === '') {
-			return prev;
+export const searchTermsToFilter = (
+	f: PostgrestFilterBuilder<any, any, any>,
+	searchTerms: AnyProp
+) => {
+	Object.entries(searchTerms).forEach((entry) => {
+		if (entry[1] !== '') {
+			f.ilike(entry[0], `%${entry[1]}%`);
 		}
-		return [...prev, where(curr[0], '==', curr[1])];
-	}, []);
-
-export const toArrayQuerySnap = <T>(query: QuerySnapshot) =>
-	query.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as T[];
-
-export const toObjectDocSnap = <T>(query: DocumentSnapshot): T | undefined => {
-	const data = query.data();
-
-	if (data) {
-		return { id: data.id, ...data } as T;
-	}
-
-	return data;
+	});
+	return f;
 };
-
-export const getLastDocSnap = (query: QuerySnapshot) => query.docs[query.docs.length - 1];

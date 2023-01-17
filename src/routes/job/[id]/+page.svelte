@@ -29,7 +29,7 @@
 		<section class="position">
 			<div class="text">
 				<TimeContract>
-					<span slot="time">{job.postedAt}</span>
+					<span slot="time">{job.created_at}</span>
 					<span slot="contract">{job.contract}</span>
 				</TimeContract>
 				<Heading type="h1">{job.position}</Heading>
@@ -45,9 +45,9 @@
 
 		<section>
 			<Heading as="h2" type="h3">Requirements</Heading>
-			<p>{job.requirements.content}</p>
+			<p>{job.requirements_content}</p>
 			<ul>
-				{#each job.requirements.items as requirement}
+				{#each job.requirements_items as requirement}
 					<li>
 						{requirement}
 					</li>
@@ -57,9 +57,9 @@
 
 		<section>
 			<Heading as="h2" type="h3">What You Will Do</Heading>
-			<p>{job.role.content}</p>
+			<p>{job.role_content}</p>
 			<ol>
-				{#each job.role.items as role, i}
+				{#each job.role_items as role, i}
 					<li>
 						<span>{i + 1}</span>
 						{role}

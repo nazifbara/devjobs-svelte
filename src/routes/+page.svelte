@@ -54,7 +54,7 @@
 						</picture>
 
 						<TimeContract>
-							<span slot="time">{job.postedAt}</span>
+							<span slot="time">{job.created_at}</span>
 							<span slot="contract">{job.contract}</span>
 						</TimeContract>
 						<Heading as="h2" type="h3">{job.position}</Heading>

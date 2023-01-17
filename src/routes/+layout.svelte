@@ -1,13 +1,8 @@
 <script lang="ts">
 	import '$lib/scss/globals.scss';
 
-	import { onMount } from 'svelte';
-
 	import ThemeProvider from '$lib/components/ThemeProvider.svelte';
 	import Header from '$lib/components/Header.svelte';
-	import { initializeFirebase } from '$lib/firebase';
-
-	onMount(() => initializeFirebase());
 </script>
 
 <ThemeProvider>
