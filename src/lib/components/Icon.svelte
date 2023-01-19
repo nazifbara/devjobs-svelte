@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { icons } from '$lib/constants';
+	import { icons } from '$lib/utils/constants';
 
 	export let name: keyof typeof icons;
 </script>
