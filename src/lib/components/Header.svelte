@@ -41,8 +41,8 @@
 				<div on:keydown|stopPropagation on:click|stopPropagation class="content">
 					<nav class="menu">
 						<IconButton on:click={closeMenu} name="cross" color="white" />
-						<a href="/auth?t=login" class="nav-link">Sign in</a>
-						<a href="/auth?t=login" class="nav-link">Sign up</a>
+						<a href="/auth?t=signin" class="nav-link">Sign in</a>
+						<a href="/auth?t=signup" class="nav-link">Sign up</a>
 						<ThemeSwitcher />
 					</nav>
 				</div>
