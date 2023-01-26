@@ -4,6 +4,9 @@ import { searchTermsToFilter } from '$lib/utils/helpers';
 import { ENTITIES_COUNT_LIMIT } from '$lib/utils/constants';
 import type { Job, EntityWithId, AnyProp } from '$lib/types';
 
+export const signIn = async (email: string, password: string) =>
+	supabase.auth.signInWithPassword({ email, password });
+
 export const signUp = async (email: string, password: string) =>
 	supabase.auth.signUp({ email, password });
 

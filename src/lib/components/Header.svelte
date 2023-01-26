@@ -10,6 +10,7 @@
 
 	const openMenu = () => (menuIsOpen = true);
 	const closeMenu = () => (menuIsOpen = false);
+
 	const keydownCloseMenu = (e: KeyboardEvent) => {
 		if (e.code === 'Enter') {
 			closeMenu();

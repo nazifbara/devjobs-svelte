@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { signUp } from '$lib/utils/apiClient';
+	import { signUp, signIn } from '$lib/utils/apiClient';
 	import Heading from '$lib/components/Heading.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
 
 	$: type = $page.params.type;
 	$: signingIn = type === 'sign-in';
@@ -14,6 +15,19 @@
 	let password = '';
 	let password2 = '';
 	let errorMessage: string | undefined = '';
+
+	const handleSubmit = () => {
+		signingIn ? handleSignIn() : handleSignUp();
+	};
+
+	const handleSignIn = async () => {
+		const { data, error } = await signIn(email, password);
+		errorMessage = errorMessage = error?.message;
+
+		if (!errorMessage) {
+			window.location.href = '/';
+		}
+	};
 
 	const handleSignUp = async () => {
 		if (password2 === password) {
@@ -33,17 +47,17 @@
 	{#if !askConfirmation}
 		<Heading type="h1">{signingIn ? 'Sign In' : 'Sign Up'}</Heading>
 
-		<form on:submit={handleSignUp}>
-			<input
-				bind:value={email}
+		<form on:submit={handleSubmit}>
+			<TextInput
+				value={email}
 				type="email"
 				placeholder="Enter your email..."
 				required
 				class="text-input"
 			/>
 
-			<input
-				bind:value={password}
+			<TextInput
+				value={password}
 				type="password"
 				placeholder="Enter your password..."
 				required
@@ -51,8 +65,8 @@
 			/>
 
 			{#if signingUp}
-				<input
-					bind:value={password2}
+				<TextInput
+					value={password2}
 					type="password"
 					placeholder="Confirm your password..."
 					required
@@ -95,21 +109,6 @@
 		max-width: 31.25rem;
 		margin-inline: auto;
 	}
-
-	.text-input {
-		background-color: var(--accentBase);
-		border-radius: 0.375rem;
-		padding: 1rem;
-		color: var(--accentTextContrast);
-		border: 1px solid transparent;
-		width: 100%;
-	}
-
-	.text-input:focus {
-		outline: none;
-		border: 1px solid var(--primary);
-	}
-
 	.error {
 		color: var(--danger);
 	}
