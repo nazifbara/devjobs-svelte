@@ -10,6 +10,8 @@ export const signIn = async (email: string, password: string) =>
 export const signUp = async (email: string, password: string) =>
 	supabase.auth.signUp({ email, password });
 
+export const signOut = async () => supabase.auth.signOut();
+
 export const upload = async (file: File, bucket: string, path: string) =>
 	await supabase.storage.from(bucket).upload(path, file);
 
