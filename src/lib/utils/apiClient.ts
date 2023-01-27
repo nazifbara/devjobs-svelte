@@ -10,6 +10,12 @@ export const signIn = async (email: string, password: string) =>
 export const signUp = async (email: string, password: string) =>
 	supabase.auth.signUp({ email, password });
 
+export const upload = async (file: File, bucket: string, path: string) =>
+	await supabase.storage.from(bucket).upload(path, file);
+
+export const getPublicUrl = async (bucket: string, path: string) =>
+	await supabase.storage.from(bucket).getPublicUrl(path);
+
 export const searchFor = async (path: string, searchTerms: AnyProp) => {
 	let filterBuilder = supabase.from(path).select();
 	filterBuilder = searchTermsToFilter(filterBuilder, searchTerms);
@@ -17,6 +23,9 @@ export const searchFor = async (path: string, searchTerms: AnyProp) => {
 	const { data } = await filterBuilder.order('created_at').limit(ENTITIES_COUNT_LIMIT);
 	return data as Job[];
 };
+
+export const postItem = async (path: string, item: unknown) =>
+	await supabase.from(path).insert(item);
 
 export const getById = async (path: string, id: string) => {
 	const { data } = await supabase.from(path).select().eq('id', id);

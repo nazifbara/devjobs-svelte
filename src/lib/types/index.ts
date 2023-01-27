@@ -1,3 +1,12 @@
+export interface NewProfile {
+	company: string;
+	website: string;
+	logo: string;
+	logoBackground: string;
+	location: string;
+	bio?: string;
+}
+
 export interface Job {
 	id: string;
 	company: string;
