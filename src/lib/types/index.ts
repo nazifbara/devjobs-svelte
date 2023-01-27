@@ -1,3 +1,15 @@
+export interface Profile {
+	id: number;
+	userId: string;
+	company: string;
+	website: string;
+	logo: string;
+	logoBackground: string;
+	location: string;
+	bio?: string;
+	created_at: string;
+}
+
 export interface Job {
 	id: string;
 	company: string;

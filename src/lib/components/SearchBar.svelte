@@ -135,6 +135,20 @@
 		display: flex;
 	}
 
+	input {
+		color: var(--accentTextContrast);
+		padding: 3px;
+
+		&::placeholder {
+			color: var(--accentTextContrast);
+		}
+
+		&:focus {
+			outline: 0.125rem dashed var(--primary);
+			outline-offset: 0.25rem;
+		}
+	}
+
 	input[type='search'] {
 		background-color: transparent;
 		padding: 0;

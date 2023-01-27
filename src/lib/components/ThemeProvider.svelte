@@ -39,6 +39,7 @@
 	style:--primaryBgO10={common.colors.primaryBgO10}
 	style:--primaryBgO25={common.colors.primaryBgO25}
 	style:--primaryBgO35={common.colors.primaryBgO35}
+	style:--danger={common.colors.danger}
 	style:--accentBase={theme[$currentTheme].colors.accentBase}
 	style:--accentBg={theme[$currentTheme].colors.accentBg}
 	style:--accentText={theme[$currentTheme].colors.accentText}

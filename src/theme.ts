@@ -7,7 +7,8 @@ export const common = {
 		primaryHover: 'hsl(235 82% 77%)',
 		primaryBgO10: 'hsl(235 69% 61% / 0.1)',
 		primaryBgO25: 'hsl(235 69% 61% / 0.25)',
-		primaryBgO35: 'hsl(235 69% 61% / 0.35)'
+		primaryBgO35: 'hsl(235 69% 61% / 0.35)',
+		danger: 'red'
 	}
 };
 

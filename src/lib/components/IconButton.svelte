@@ -2,11 +2,17 @@
 	import type { icons } from '../constants';
 	import Icon from './Icon.svelte';
 
+	export let color: string = '';
 	export let name: keyof typeof icons;
 	export let type: 'primary' | '' = '';
 </script>
 
-<button on:click class:primary={type === 'primary'}>
+<button
+	style:--color={color}
+	class:color={color !== ''}
+	on:click
+	class:primary={type === 'primary'}
+>
 	<Icon {name} />
 </button>
 
@@ -18,7 +24,11 @@
 		border-radius: 0.313rem;
 		padding: 0.875rem;
 
-		& :global(svg path) {
+		&.color :global(svg path) {
+			fill: var(--color);
+		}
+
+		:global(svg path) {
 			fill: var(--icon);
 		}
 	}

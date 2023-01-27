@@ -7,6 +7,14 @@ dayjs.extend(relativeTime);
 
 import type { AnyProp } from '$lib/types';
 
+export const isValidUrl = (url: string) => {
+	try {
+		return Boolean(new URL(url));
+	} catch (e) {
+		return false;
+	}
+};
+
 export const searchTermsToFilter = (
 	f: PostgrestFilterBuilder<any, any, any>,
 	searchTerms: AnyProp
