@@ -9,14 +9,22 @@
 	let email = '';
 	let password = '';
 	let errorMessage: string | undefined = '';
+	let submitting = false;
 
 	const handleSignIn = async () => {
-		const { data, error } = await signIn(email, password);
-		errorMessage = errorMessage = error?.message;
-
-		if (!errorMessage) {
-			window.location.href = '/';
+		if (submitting) {
+			return;
 		}
+
+		submitting = true;
+
+		const { error } = await signIn(email, password);
+		if (error) {
+			errorMessage = error.message;
+			submitting = false;
+		}
+
+		window.location.href = '/';
 	};
 </script>
 
@@ -24,20 +32,15 @@
 	<Heading type="h1">Sign In</Heading>
 
 	<form on:submit={handleSignIn}>
-		<TextInput bind:value={email} type="email" placeholder="Enter your email..." required />
+		<TextInput bind:value={email} type="email" placeholder="Your email..." required />
 
-		<TextInput
-			bind:value={password}
-			type="password"
-			placeholder="Enter your password..."
-			required
-		/>
+		<TextInput bind:value={password} type="password" placeholder="Your password..." required />
 
 		{#if errorMessage}
 			<span class="error">{errorMessage}</span>
 		{/if}
 
-		<Button>Sign In</Button>
+		<Button>{submitting ? 'Submitting...' : 'Sign In'}</Button>
 
 		<p>Don't have an account? <Link href="/auth/sign-up">Sign Up Now</Link></p>
 	</form>

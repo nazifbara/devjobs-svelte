@@ -33,6 +33,11 @@ export const getById = async (path: string, id: string) => {
 	return data ? (data[0] as Job) : null;
 };
 
+export const getCurrentSession = async () => await supabase.auth.getSession();
+
+export const getCurrentProfile = async (userId: string) =>
+	await supabase.from('profiles').select().eq('userId', userId);
+
 export const getListOf = async (path: string) => {
 	const { data } = await supabase
 		.from(path)

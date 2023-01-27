@@ -2,6 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 
+	import { auth } from '$lib/store';
 	import Icon from './Icon.svelte';
 	import IconButton from './IconButton.svelte';
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
@@ -23,8 +24,14 @@
 		<a href="/"><Icon name="logo" /></a>
 
 		<nav class="menu">
-			<a href="/auth/sign-in" class="nav-link">Sign in</a>
-			<a href="/auth/sign-up" class="nav-link">Sign up</a>
+			{#if $auth}
+				<a href="/dashboard" class="nav-link">Dashboard</a>
+				<a href="/auth/sign-out" class="nav-link">Sign out</a>
+			{:else}
+				<a href="/auth/sign-in" class="nav-link">Sign in</a>
+				<a href="/auth/sign-up" class="nav-link">Sign up</a>
+			{/if}
+
 			<ThemeSwitcher />
 		</nav>
 
@@ -42,8 +49,14 @@
 				<div on:keydown|stopPropagation on:click|stopPropagation class="content">
 					<nav class="menu">
 						<IconButton on:click={closeMenu} name="cross" color="white" />
-						<a href="/auth/sign-in" class="nav-link">Sign in</a>
-						<a href="/auth/sign-up" class="nav-link">Sign up</a>
+						{#if $auth}
+							<a href="/dashboard" class="nav-link">Dashboard</a>
+							<a href="/auth/sign-out" class="nav-link">Sign out</a>
+						{:else}
+							<a href="/auth/sign-in" class="nav-link">Sign in</a>
+							<a href="/auth/sign-up" class="nav-link">Sign up</a>
+						{/if}
+
 						<ThemeSwitcher />
 					</nav>
 				</div>
